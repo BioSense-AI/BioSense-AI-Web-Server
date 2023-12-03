@@ -16,15 +16,28 @@ def setupGPIO():
 spO2 = 97
 bpm = 105
 state = 'Normal'
+stress= 'High'
 
 def getState():
     global state
     return state
 
+def getStress():
+    Numbers = [95,99,102,104,92]
+    random_number = randint(0,4)
+    if Numbers[random_number] > 100:
+        return 'Very High'
+    else:
+        return 'High'
+    
 def getSPO2():
     Numbers = [97,98,99,100,95]
     random_number = randint(0,4)
     return str(Numbers[random_number])
+# def getSPO2():
+#     global spO2
+#     spO2 += 1
+#     return str(spO2)
 
 def getTemp():
     Numbers = [97, 99, 102, 104, 92]
@@ -33,6 +46,10 @@ def getTemp():
         return 'High'
     else:
         return 'Very High'
+def getBPM():
+    Numbers = [95,99,102,104,92]
+    random_number = randint(0,4)
+    return str(Numbers[random_number])
 
 class MyServer(BaseHTTPRequestHandler):
 
@@ -53,9 +70,14 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            spo2_value = getState()
-            self.wfile.write(spo2_value.encode("utf-8"))
-
+            state_value = getState()
+            self.wfile.write(state_value.encode("utf-8"))
+        elif self.path == '/stress_page':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            stress_value = getStress()
+            self.wfile.write(stress_value.encode("utf-8"))
         elif self.path == '/spo2':
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')

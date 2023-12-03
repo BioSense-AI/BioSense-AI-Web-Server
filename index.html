@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script  type="text/javascript" src="./scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <title>BioSense-AI</title>
 </head>
 <body 
 style="width:960px; margin: 20px auto; background-color: lightblue; padding: 20px;">
-<h1>Welcome to BioSense-AI</h1>
+<h1 class="text-3xl font-bold text-clifford">Welcome to Biosence-AI</h1>
 
-<canvas id="StressChart" style="width:100%;max-width:600px"></canvas>
+<canvas id="StressChart" class="p-10" style="width:100%;max-width:600px"></canvas>
 
 <p>Patient's State : <span id="person_id">Loading...</span></p>
 <p>Patient's stress level is <span id="stress_id">Loading...</span> % </p>
@@ -29,8 +31,6 @@ style="width:960px; margin: 20px auto; background-color: lightblue; padding: 20p
     <p>Predictions from Steathascope report: Loading...</span></p>
 
 </form>
-
-
 <h4> ECG signal of the Patient </h4>
 <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 <br></br>
