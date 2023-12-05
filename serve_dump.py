@@ -8,7 +8,7 @@ ecg_list = ['13342', '13307', '13353', '13391', '13414', '13441', '13471', '1348
 def get_point():
     get_point.counter
     if len(ecg_list) < get_point.counter :
-        return
+        get_point.counter = 0
     val = ecg_list[get_point.counter]
     get_point.counter += 1
     return val
