@@ -1,4 +1,5 @@
 <html lang="en" class="m-0 p-0">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,137 +7,152 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <title>BioSense-AI</title>
 </head>
+
 <body class="m-10 px-5 bg-blue-200 place-content-around text-center content-center">
 
-<h1 class="text-4xl font-bold text-blue-700">Welcome to Biosence-AI</h1>
+    <h1 class="text-4xl font-bold text-blue-700">Welcome to Biosence-AI</h1>
 
-<canvas id="StressChart" class="p-10 m-auto max-w-2xl w-full"></canvas>
+    <canvas id="StressChart" class="p-10 m-auto max-w-2xl w-full"></canvas>
 
-<p>Patient's State : <span id="person_id">Loading...</span></p>
-<p>Patient's stress level is <span id="stress_id">Loading...</span> % </p>
+    <p>Patient's State : <span id="person_id">Loading...</span></p>
+    <p>Patient's stress level is <span id="stress_id">Loading...</span> % </p>
 
-<br></br>
+    <br></br>
 
-<form action="/" method="POST">
-    Turn SpO2 Sensor ON/OFF:
-    <input type="submit" name="submit" value="On">
-    <input type="submit" name="submit" value="Off">
-    <p>Patient's Blood SpO2 level is <span id="spo2_id">Loading...</span></p>
-    <p>Patient's BPM level is <span id="bpm_id">Loading...</span></p>
-    <br><br>
-    Stethoscope Analysis :
-    <button value="Connect" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        Connect
-    </button>
-    <br><br><br>
-    <p>Predictions from Steathascope report: Loading...</span></p>
-</form>
-
-
-<h1 class="text-3xl font-bold text-red-500 my-10"> Electro Cardio Graph </h1>
-<canvas id="myChart" class="m-auto mt-3 w-full max-w-2xl"></canvas>
-<br></br>
-<form action="/" method="POST">
-    Biosense-AI Report :
-    <button type="submit" name="submit" value="Generate now" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Generate
-    </button>
-</form>
+    <form action="/" method="POST">
+        Turn SpO2 Sensor ON/OFF:
+        <input type="submit" name="submit" value="On">
+        <input type="submit" name="submit" value="Off">
+        <p>Patient's Blood SpO2 level is <span id="spo2_id">Loading...</span></p>
+        <p>Patient's BPM level is <span id="bpm_id">Loading...</span></p>
+        <br><br>
+        Stethoscope Analysis :
+        <button value="Connect" type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            Connect
+        </button>
+        <br><br><br>
+        <p>Predictions from Steathascope report: Loading...</span></p>
+    </form>
 
 
+    <h1 class="text-3xl font-bold text-red-500 my-10"> Electro Cardio Graph </h1>
+    <canvas id="myChart" class="m-auto mt-3 w-full max-w-2xl"></canvas>
+    <br></br>
+    <form action="/" method="POST">
+        Biosense-AI Report :
+        <button type="submit" name="submit" value="Generate now"
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Generate
+        </button>
+    </form>
 
-<script> //updateVals chart
-    function updateValues() {
-        fetch('/state_page')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('person_id').innerHTML = data;
-            });
-        fetch('/spo2')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('spo2_id').innerHTML = data;
-            });       
-        fetch('/temp')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('stress_id').innerHTML = data;
-            });
-    }
-    setInterval(updateValues, 1000); // Update every second
-</script>
 
-<script> //Stress chart
-    var xValues = ["Stressed", "Charam"];
-    var yValues = [78, 22];
-    var barColors = [
-      "#b91d47",
-      "#2b5797"
-    ];
-    
-    new Chart("StressChart", {
-      type: "doughnut",
-      data: {
-        labels: xValues,
-        datasets: [{
-          backgroundColor: barColors,
-          data: yValues
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Based on Patients SpO2 and BPM Analysis"
+
+    <script> //updateVals chart
+        function updateValues() {
+            fetch('/state_page')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('person_id').innerHTML = data;
+                });
+            fetch('/spo2')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('spo2_id').innerHTML = data;
+                });
+            fetch('/temp')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('stress_id').innerHTML = data;
+                });
         }
-      }
-    });
-</script>
-<script> 
-///////////////////////////////////////////////////////////////////////////
-// ECG chart
-///////////////////////////////////////////////////////////////////////////
-xValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-yValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-// Function to update the chart
-function updateChartData() {
-    var ecg_val;
-    fetch('/data')
-            .then(response => response.text())
-            .then(data => {
-                ecg_val = parseInt(data);
-                console.log(ecg_val);
-                yValues.push((ecg_val));
-            })
-    // yValues.push((ecg_val * 2000) + 800);  // Generate random values
-    xValues.push(xValues[xValues.length - 1] + 1);
-    yValues.shift();
-    xValues.shift();
-    // if (yValues.length > xValues.length) {
-    // }
-    chart.update();
-}
+        setInterval(updateValues, 1000); // Update every second
+    </script>
 
-const chart = new Chart("myChart", {
-    type: "line",
-    data: {
-        labels: xValues,
-        datasets: [{
-            data: yValues,
-            borderColor: "red",
-            borderWidth: 2,
-            radius: 0,
-            fill: false,
-        }],
-    },
-    options: {
-        plugins: {
-            tooltip: {enabled:false}
-        },
-        legend: {display: false}
-    },
-});
+    <script> //Stress chart
+        var xValues = ["Stressed", "Charam"];
+        var yValues = [78, 22];
+        var barColors = [
+            "#b91d47",
+            "#2b5797"
+        ];
 
-setInterval(updateChartData, 100);
-</script>
+        new Chart("StressChart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Based on Patients SpO2 and BPM Analysis"
+                }
+            }
+        });
+    </script>
+    <script>
+        ///////////////////////////////////////////////////////////////////////////
+        // ECG chart
+        ///////////////////////////////////////////////////////////////////////////
+        xValues = Array(100).fill(0)
+        yValues = Array(100).fill(12000)
+        // Function to update the chart
+        function updateChartData() {
+            var ecg_val;
+            fetch('/ecg_data')
+                .then(response => response.text())
+                .then(data => {
+                    ecg_val = parseInt(data);
+                    console.log(ecg_val);
+                    yValues.push((ecg_val));
+                })
+            xValues.push(xValues[xValues.length - 1] + 1);
+            yValues.shift();
+            xValues.shift();
+            chart.update();
+        }
+
+        const chart = new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: yValues,
+                    borderColor: "red",
+                    borderWidth: 2,
+                    radius: 0,
+                    fill: false,
+                }],
+            },
+            options: {
+                plugins: {
+                    // animation,
+                    interaction: {
+                        intersect: false
+                    },
+                    tooltip: { enabled: false },
+                    scales: {
+                        y: {
+                            min: 10000,
+                            max: 20000,
+                            type: 'linear',
+                        },
+                        x: {
+                            type: 'linear'
+                        }
+                    }
+                },
+                legend: { display: false }
+            },
+        });
+
+        setInterval(updateChartData, 100);
+    </script>
 </body>
+
 </html>

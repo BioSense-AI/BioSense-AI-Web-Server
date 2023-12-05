@@ -4,6 +4,7 @@ from random import randint
 import json
 from read_adc import get_ecg_adc
 from serve_dump import get_point, get_points
+SIMULATE = True
 host_name = '0.0.0.0'  # Broadcasting Address
 # host_name = ''  # can also use empty string to broadcast
 host_port = 8000
@@ -101,13 +102,14 @@ class MyServer(BaseHTTPRequestHandler):
             temp_value = getTemp()
             self.wfile.write(temp_value.encode("utf-8"))
 
-        elif self.path == '/data':
+        elif self.path == '/ecg_data':
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            # data_point = get_ecg_adc()
-            data_point = get_point()
-            # self.wfile.write(str(data_point).encode("utf-8"))
+            if SIMULATE:
+                data_point = get_point()
+            else:
+                data_point = get_ecg_adc()
             self.wfile.write(str(data_point).encode("utf-8"))
         else:
             html = open('./index.html').read()
