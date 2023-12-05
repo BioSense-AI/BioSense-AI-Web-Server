@@ -11,3 +11,8 @@ Interface(vitesense v1) for BioSense-AI pocket computer.
 - portable ADS1115 setup and value reading with calbrating setup
 - organize the website
 - add favicon
+
+### Commands to Run
+```
+sudo pip3 install adafruit-ads1x15
+```
