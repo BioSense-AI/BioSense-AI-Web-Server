@@ -20,9 +20,20 @@
     <br></br>
 
     <form action="/" method="POST">
-        Turn SpO2 Sensor ON/OFF:
-        <input type="submit" name="submit" value="On">
-        <input type="submit" name="submit" value="Off">
+        <div class="text-center py-4 lg:px-4">
+            <div class="p-2 bg-red-800 items-center text-red-100 leading-none lg:rounded-full flex lg:inline-flex"
+                role="alert">
+                <span class="flex rounded-full bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3"><input
+                        type="submit" name="submit" value="OFF"></span>
+                <span class="font-semibold mr-2 text-left flex-auto">SPO2 Sensor is OFF</span>
+                <svg class="fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                </svg>
+            </div>
+        </div>
+        <!-- Turn SpO2 Sensor ON/OFF: -->
+        <!-- <input type="submit" name="submit" value="On"> -->
+        <!-- <input type="submit" name="submit" value="Off"> -->
         <p>Patient's Blood SpO2 level is <span id="spo2_id">Loading...</span></p>
         <p>Patient's BPM level is <span id="bpm_id">Loading...</span></p>
         <br><br>
@@ -105,18 +116,34 @@
         xValues = Array(100).fill(0)
         yValues = Array(100).fill(12000)
         // Function to update the chart
-        function updateChartData() {
-            var ecg_val;
-            fetch('/ecg_data')
-                .then(response => response.text())
-                .then(data => {
-                    ecg_val = parseInt(data);
-                    console.log(ecg_val);
-                    yValues.push((ecg_val));
-                })
-            xValues.push(xValues[xValues.length - 1] + 1);
-            yValues.shift();
-            xValues.shift();
+        // function updateChartData() {
+        //     fetch('/ecg_data')
+        //         .then(response => response.text())
+        //         .then(data => {
+        //             ecg_val = parseInt(data);
+        //             yValues.push((ecg_val));
+        //         })
+        //     xValues.push(xValues[xValues.length - 1] + 1);
+        //     yValues.shift();
+        //     xValues.shift();
+        //     chart.update();
+        // }
+
+        // Pusing Limits :)
+        num = 20;
+        function updateChartDataFast() {
+            for (let i = 0; i < num; i++) {
+                fetch('/ecg_data')
+                    .then(response => response.text())
+                    .then(data => {
+                        ecg_val = parseInt(data);
+                        console.log(ecg_val);
+                        yValues.push((ecg_val));
+                    })
+            }
+            xValues.push(xValues[xValues.length - 1] + num);
+            yValues.shift(num);
+            xValues.shift(num);
             chart.update();
         }
 
@@ -135,6 +162,9 @@
                 }],
             },
             options: {
+                animation: {
+                    duration: 10,
+                },
                 plugins: {
                     // animation,
                     interaction: {
@@ -150,13 +180,16 @@
                         x: {
                             type: 'linear'
                         }
+                    },
+                    legend: {
+                        display: false
                     }
                 },
-                legend: { display: false }
             },
         });
 
-        setInterval(updateChartData, 100);
+        setInterval(updateChartDataFast, 100);
+        // setInterval(updateChartData, 100);
     </script>
 </body>
 
