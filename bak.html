@@ -1,0 +1,130 @@
+<style>
+    html, body {
+      margin:0; padding:0;
+    }
+
+    .figure {
+      height: 50vh;
+      width: 100vw;
+    }
+  </style>
+</head>
+<body>
+  <div id="gd" class="figure"></div>
+  <div id="gd2" class="figure"></div>
+
+  <script>
+  var values = [400, 450];
+  var figure1 = {
+    data: [{
+      name: 'Speed',
+      type: 'indicator',
+      mode: 'gauge',
+      ticker: {
+        showticker: false
+      },
+      gauge: {
+        max: 500,
+        background: {
+          color: 'rgba(255, 255, 255, 0.25)',
+          line: {
+            width: 2,
+            color: 'rgba(255, 255, 255, 0.5)'
+          }
+        }
+      },
+      values: values,
+      font: {
+        color: 'white',
+        family: 'Dosis'
+      },
+    }],
+    layout: {
+      paper_bgcolor: 'black',
+      margin: {t:25, r:25, l:25, b:25}
+    },
+    config: {
+      responsive: true
+    }
+  };
+  console.log(JSON.stringify(figure1));
+  Plotly.newPlot('gd', figure1)
+  .then(function() {
+    update();
+  })
+
+  function update() {
+    setTimeout(function() {
+      values.push(Math.random() * 500);
+      Plotly.animate('gd', {
+        data: values
+      }, {
+        transition: {
+          duration: 500,
+          easing: 'cubic-in-out'
+        }
+      }).then(function() {
+        update();
+      })
+    }, 500)
+  }
+
+  var values2 = [400, 450];
+  var figure2 = {
+    data: [{
+      name: 'Accounts',
+      type: 'indicator',
+      mode: 'bignumber',
+      ticker: {
+        showticker: true,
+        showpercentage: true
+      },
+      gauge: {
+        max: 500,
+        background: {
+          color: 'rgba(255, 255, 255, 0.25)',
+          line: {
+            width: 2,
+            color: 'rgba(255, 255, 255, 0.5)'
+          }
+        }
+      },
+      values: values2,
+      font: {
+        color: 'white',
+        family: 'Dosis'
+      },
+    }],
+    layout: {
+      paper_bgcolor: 'black',
+      margin: {t:25, r:25, l:25, b:25}
+    },
+    config: {
+      responsive: true
+    }
+  };
+  console.log(JSON.stringify(figure2));
+  Plotly.newPlot('gd2', figure2)
+  .then(function() {
+      update2();
+  })
+
+
+  function update2() {
+    setTimeout(function() {
+      values2.push(values2[values2.length -1 ] + (Math.random() - 0.5) * 50);
+      Plotly.animate('gd2', {
+        data: values2
+      }, {
+        transition: {
+        duration: 500,
+        easing: 'cubic-in-out'
+        }
+      }).then(function() {
+        update2();
+      })
+    }, 500)
+  }
+  </script>
+</body>
+</html>

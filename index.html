@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="m-0 p-0">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script  type="text/javascript" src="./scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <title>BioSense-AI</title>
 </head>
-<body 
-style="width:960px; margin: 20px auto; background-color: lightblue; padding: 20px;">
+<!-- <body style="width:960px; margin: 20px auto; background-color: lightblue; padding: 20px;"> -->
+<body class="m-20 p-20">
+
 <h1 class="text-3xl font-bold text-clifford">Welcome to Biosence-AI</h1>
 
 <canvas id="StressChart" class="p-10" style="width:100%;max-width:600px"></canvas>
+
 
 <p>Patient's State : <span id="person_id">Loading...</span></p>
 <p>Patient's stress level is <span id="stress_id">Loading...</span> % </p>
@@ -86,16 +88,23 @@ style="width:960px; margin: 20px auto; background-color: lightblue; padding: 20p
       }
     });
 </script>
-
+<h2>ECG Plot</h2>
 <script> //ECG chart
-xValues = [100,200,300,400,500,600,700,800,900,1000];
-yValues = [860,1140,1060,1060,1070,1110,1330,2210,7830,2478];
-
+xValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+yValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 // Function to update the chart
 function updateChartData() {
-    yValues.push(Math.floor(Math.random() * 2000) + 800);  // Generate random values
-    xValues.push(xValues[xValues.length - 1] + 1000);
-    if (yValues.length > 10) {
+    var ecg_val;
+    fetch('/data')
+            .then(response => response.text())
+            .then(data => {
+                ecg_val = parseInt(data);
+                console.log(ecg_val);
+                yValues.push((ecg_val));
+            })
+    // yValues.push((ecg_val * 2000) + 800);  // Generate random values
+    xValues.push(xValues[xValues.length - 1] + 1);
+    if (yValues.length > xValues.length) {
         yValues.shift();
         xValues.shift();
     }
@@ -116,8 +125,7 @@ const chart = new Chart("myChart", {
         legend: {display: false}
     },
 });
-
-setInterval(updateChartData, 1000);
+setInterval(updateChartData, 100);
 </script>
 </body>
 </html>

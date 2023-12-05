@@ -1,6 +1,8 @@
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from random import randint
+import json
+from read_adc import get_ecg_adc
 
 host_name = '0.0.0.0'  # Broadcasting Address
 # host_name = ''  # can also use empty string to broadcast
@@ -51,6 +53,12 @@ def getBPM():
     random_number = randint(0,4)
     return str(Numbers[random_number])
 
+def get_data():
+    # Replace this with your actual ECG data from the ADC
+    # You might need to convert it to a JSON format
+    ecg_data = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
+    return json.dumps({'ecg_data': ecg_data})
+
 class MyServer(BaseHTTPRequestHandler):
 
     def do_HEAD(self):
@@ -91,6 +99,13 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             temp_value = getTemp()
             self.wfile.write(temp_value.encode("utf-8"))
+
+        elif self.path == '/data':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            data_point = get_ecg_adc()
+            self.wfile.write(str(data_point).encode("utf-8"))
         else:
             html = open('./index.html').read()
             self.do_HEAD()
