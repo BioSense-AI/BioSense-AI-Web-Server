@@ -3,7 +3,7 @@ import Adafruit_ADS1x15
 # import json
 
 # Create an ADS1115 ADC (16-bit) instance.
-adc = Adafruit_ADS1x15.ADS1115(address=0x48,busnum=3)
+adc = Adafruit_ADS1x15.ADS1115(address=0x48,busnum=2)
 
 # Choose a gain of 1 for reading voltages from 0 to 4.09V.
 # Or pick a different gain to change the range of voltages that are read:

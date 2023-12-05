@@ -3,10 +3,11 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from random import randint
 import json
 from read_adc import get_ecg_adc
-
+from serve_dump import get_point, get_points
 host_name = '0.0.0.0'  # Broadcasting Address
 # host_name = ''  # can also use empty string to broadcast
 host_port = 8000
+integral = 0
 
 def setupGPIO():
     pass
@@ -104,7 +105,9 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            data_point = get_ecg_adc()
+            # data_point = get_ecg_adc()
+            data_point = get_point()
+            # self.wfile.write(str(data_point).encode("utf-8"))
             self.wfile.write(str(data_point).encode("utf-8"))
         else:
             html = open('./index.html').read()
