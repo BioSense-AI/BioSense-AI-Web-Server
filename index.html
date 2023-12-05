@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>BioSense-AI</title>
 </head>
 
-<body class="m-10 px-5 bg-blue-200 place-content-around text-center content-center">
+<body class="m-0 p-0 bg-blue-200 text-center content-center">
 
-    <h1 class="text-4xl font-bold text-blue-700">Welcome to Biosence-AI</h1>
+    <h1 class="mt-10 text-3xl font-bold text-blue-700">Welcome to Biosence-AI</h1>
 
-    <canvas id="StressChart" class="p-10 m-auto max-w-2xl w-full"></canvas>
+    <canvas id="StressChart" class="p-10 m-auto max-w-2xl w-fit h-fit"></canvas>
 
     <p>Patient's State : <span id="person_id">Loading...</span></p>
     <p>Patient's stress level is <span id="stress_id">Loading...</span> % </p>
@@ -36,7 +36,7 @@
     </form>
 
 
-    <h1 class="text-3xl font-bold text-red-500 my-10"> Electro Cardio Graph </h1>
+    <h1 class="text-2xl font-bold text-red-500 my-10"> Electro Cardio Graph </h1>
     <canvas id="myChart" class="m-auto mt-3 w-full max-w-2xl"></canvas>
     <br></br>
     <form action="/" method="POST">
@@ -71,11 +71,13 @@
     </script>
 
     <script> //Stress chart
-        var xValues = ["Stressed", "Charam"];
-        var yValues = [78, 22];
+        var xValues = ["Stressed", "Normal", "Calm"];
+        var yValues = [78, 12, 10];
         var barColors = [
             "#b91d47",
-            "#2b5797"
+            "#2b5797",
+            "#ffffff",
+
         ];
 
         new Chart("StressChart", {
@@ -84,12 +86,13 @@
                 labels: xValues,
                 datasets: [{
                     backgroundColor: barColors,
+                    borderWidth: 0,
                     data: yValues
                 }]
             },
             options: {
                 title: {
-                    display: true,
+                    display: false,
                     text: "Based on Patients SpO2 and BPM Analysis"
                 }
             }

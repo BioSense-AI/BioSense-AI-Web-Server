@@ -1,7 +1,6 @@
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from random import randint
-import json
 from read_adc import get_ecg_adc
 from serve_dump import get_point, get_points
 SIMULATE = True
@@ -55,12 +54,6 @@ def getBPM():
     random_number = randint(0,4)
     return str(Numbers[random_number])
 
-def get_data():
-    # Replace this with your actual ECG data from the ADC
-    # You might need to convert it to a JSON format
-    ecg_data = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
-    return json.dumps({'ecg_data': ecg_data})
-
 class MyServer(BaseHTTPRequestHandler):
 
     def do_HEAD(self):
@@ -75,7 +68,6 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-                
         if self.path == '/state_page':
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
