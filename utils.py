@@ -49,7 +49,7 @@ def find_lead_status():
     wiringpi.pinMode(25, 0) # sets GPIO 25 to input
     input1 = wiringpi.digitalRead(23)
     input2 = wiringpi.digitalRead(25)
-    print(input1, input2)
+    # print(input1, input2)
     return True if (input1 == 1 and input2 == 1) else False
 
 # for i in range(10):
