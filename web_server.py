@@ -99,13 +99,14 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             if not find_lead_status():
+                print("leads not connected")
                 data_point = 120000
             else:
                 if SIMULATE:
                     data_point = get_point()
                 else:
                     data_point = get_ecg_adc()
-            # print(data_point)
+            print(data_point)
             self.wfile.write(str(data_point).encode("utf-8"))
         elif self.path == '/lo_detect':
             self.send_response(200)
