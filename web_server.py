@@ -1,9 +1,9 @@
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from random import randint
-from read_adc import get_ecg_adc
-from serve_dump import get_point, get_points
+from utils import get_ecg_adc, get_point, get_points,find_lead_status
 SIMULATE = True
+
 host_name = '0.0.0.0'  # Broadcasting Address
 # host_name = ''  # can also use empty string to broadcast
 host_port = 8000
@@ -103,6 +103,12 @@ class MyServer(BaseHTTPRequestHandler):
             else:
                 data_point = get_ecg_adc()
             self.wfile.write(str(data_point).encode("utf-8"))
+        elif self.path == '/lo_detect':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            data = find_lead_status()
+            self.wfile.write(str(data).encode("utf-8"))
         else:
             html = open('./index.html').read()
             self.do_HEAD()
@@ -114,9 +120,9 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8")
         post_data = post_data.split("=")[1]
 
-        setupGPIO()
+        # setupGPIO()
 
-        if post_data == 'On':
+        if post_data == 'ON':
             print("Pi_LED will on")
             # GPIO.output(18, GPIO.HIGH)
         else:
