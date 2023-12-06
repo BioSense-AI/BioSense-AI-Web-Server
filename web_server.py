@@ -98,10 +98,13 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            if SIMULATE:
-                data_point = get_point()
+            if find_lead_status():
+                data_point = 120000
             else:
-                data_point = get_ecg_adc()
+                if SIMULATE:
+                    data_point = get_point()
+                else:
+                    data_point = get_ecg_adc()
             self.wfile.write(str(data_point).encode("utf-8"))
         elif self.path == '/lo_detect':
             self.send_response(200)
