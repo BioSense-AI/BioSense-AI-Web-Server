@@ -122,8 +122,7 @@ class MyServer(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length).decode("utf-8")
         post_data = post_data.split("=")[1]
-
-        # setupGPIO()
+        setupGPIO()
 
         if post_data == 'ON':
             print("Pi_LED will on")
