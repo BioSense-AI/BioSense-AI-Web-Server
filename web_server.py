@@ -98,7 +98,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            if not find_lead_status():
+            if find_lead_status():
                 print("leads not connected")
                 data_point = 120000
             else:
