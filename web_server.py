@@ -1,8 +1,14 @@
 import os
+import wiringpi
+import time
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from random import randint
 from utils import get_ecg_adc, get_point, get_points,find_lead_status
 SIMULATE = True
+
+wiringpi.wiringPiSetup()
+wiringpi.pinMode(2,1)
 
 host_name = '0.0.0.0'  # Broadcasting Address
 # host_name = ''  # can also use empty string to broadcast
@@ -124,12 +130,15 @@ class MyServer(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length).decode("utf-8")
         post_data = post_data.split("=")[1]
-        setupGPIO()
+        # setupGPIO()
 
         if post_data == 'ON':
             print("Pi_LED will on")
+            wiringpi.digitalWrite(2, 1)
+
             # GPIO.output(18, GPIO.HIGH)
         else:
+            wiringpi.digitalWrite(2, 0)
             print("Pi_LED will off")
             # GPIO.output(18, GPIO.LOW)
 
