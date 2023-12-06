@@ -30,6 +30,7 @@ def get_point():
         get_point.counter = 0
     val = ecg_list[get_point.counter]
     get_point.counter += 1
+    # print(val)
     return val
 get_point.counter = 0
 
@@ -37,7 +38,7 @@ def get_points(n):
     temp_list = []
     for i in range(n):
         temp_list.append(ecg_list[(n*get_points.counter)+i])
-    print(get_points.counter)
+    # print(get_points.counter)
     get_points.counter += 1
     return temp_list
 get_points.counter = 0
